@@ -1,0 +1,45 @@
+{
+  "constraints": {
+    "exclude": []
+  },
+  "fixed": {},
+  "parameters": {
+    "attic_r_ip": [
+      38,
+      49,
+      60,
+      70,
+      80
+    ],
+    "city_id": [
+      "boston",
+      "grand_forks",
+      "memphis",
+      "minneapolis",
+      "phoenix",
+      "washington_dc"
+    ],
+    "house_id": [
+      "1L",
+      "1M",
+      "1S"
+    ],
+    "orientation_deg": [
+      0,
+      45,
+      90,
+      135
+    ],
+    "wall_id": [
+      "W3",
+      "W5",
+      "W6",
+      "W8",
+      "W9",
+      "W10"
+    ]
+  },
+  "sampling": "full_factorial",
+  "schema_version": 1,
+  "seed": 42
+}

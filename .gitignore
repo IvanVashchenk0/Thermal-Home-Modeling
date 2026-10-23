@@ -1,0 +1,104 @@
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.streamlit/secrets.toml
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Generated models, simulator outputs, local jobs and exported datasets
+data/generated_models/
+data/simulation_outputs/
+data/results/
+data/smoke/
+data/residential_integration/
+data/residential_v0_preflight.epJSON
+data/weather/research/
+data/weather/*.epw
+data/weather/*.zip
+data/baseline_models/*
+!data/baseline_models/baseline_parameters.example.json
+input/
+output/
+*.log
+*.sql
+*.sqlite
+*.sqlite3
+eplusout.*
+batch_results.csv
+batch_results.parquet
+results.csv
+results.parquet
+status.json
+worker.lock
+stop_requested
+
+# Source workbook stays local; derived catalog JSON remains publishable.
+catalogs/revisions/*/source.xlsx
+
+# Historical machine-specific verification records (kept locally)
+catalogs/residential_validation.json
+catalogs/campaign_validation.json
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# Local credentials
+.env
+.env.local
+.streamlit/secrets.toml
+
+# macOS and editor files
+.DS_Store
+.vscode/
+.idea/
+
+# Generated EnergyPlus outputs
+eplusout.*
+/input/generated/
+/output/
+/data/generated_models/
+/data/simulation_outputs/
+/data/results/
+/data/residential_integration/
+/data/smoke/
+/data/residential_v0_preflight.epJSON
+
+# Downloaded weather and source workbook
+/data/weather/research/
+*.epw
+*.zip
+/catalogs/revisions/*/source.xlsx
+
+# Machine-specific validation records
+/catalogs/residential_validation.json
+/catalogs/campaign_validation.json
+
+# Runtime logs
+*.log

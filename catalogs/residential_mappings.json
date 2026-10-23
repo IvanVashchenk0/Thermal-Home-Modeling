@@ -1,0 +1,136 @@
+{
+  "active_attic_levels": [
+    38,
+    49,
+    60,
+    70,
+    80
+  ],
+  "active_city": "washington_dc",
+  "active_house": "1S",
+  "implementation_status": "Model mapping implemented",
+  "notes": [
+    "W3/W5/W6/W8/W9/W10 mappings checked against full-precision EnergyPlus Layers and rounded IDF Text. Material data remain provisional.",
+    "DC eligibility follows workbook rules, including its tolerance; this is not a local-code compliance certification.",
+    "Preserve workbook OSB-outside-foam order; engineering confirmation pending.",
+    "1S/1M/1L use a provisional one-story rectangle with the existing 5:3 aspect ratio, 8 ft height, and workbook floor area. No footprint is claimed finalized."
+  ],
+  "research_status": "Provisional; not validated for research",
+  "reviewed_wall_hashes": {
+    "W3": "722171062ce5a2bbdaf296c61932bcbfa228f07c4a84a097e4e4912f63934bad",
+    "W9": "10e4f83cb0b7365c43cb1b1dc28dfcc59a479f22ecb0957444ca0f0d21b8dcb0",
+    "W5": "8b80b17f850ea68d9d54f54aa70729f60bf685b4d0d4834ae425ef8660636eb2",
+    "W6": "b5e895a3baef4cc7bf589c70102548364a396dbbbdac4c8a870b02e3de145670",
+    "W8": "e30ce021b5cd914fd3483d1033719bf2d5a1aebb4d63a5703dff12228527b19c",
+    "W10": "9c345de3ba7f9409c0241ad5aba11057ca686bba0b1e32ff14f477cfd1ac227a"
+  },
+  "revision": "residential-v0-2-campaigns",
+  "supported_house_properties": {
+    "floor_area_ft2": 1500,
+    "stories": 1
+  },
+  "weather_binding": {
+    "country": "USA",
+    "latitude": 38.98,
+    "longitude": -77.47,
+    "note": "Installed Washington metropolitan Dulles TMY3 station in Virginia; not downtown DC. Explicit V0 weather binding.",
+    "region": "VA",
+    "station_id": "724030",
+    "station_name": "Washington Dc Dulles IntL Ar"
+  },
+  "house_properties": {
+    "1S": {
+      "stories": 1,
+      "floor_area_ft2": 1500
+    },
+    "1M": {
+      "stories": 1,
+      "floor_area_ft2": 2000
+    },
+    "1L": {
+      "stories": 1,
+      "floor_area_ft2": 2500
+    }
+  },
+  "weather_bindings": {
+    "washington_dc": {
+      "country": "USA",
+      "latitude": 38.98,
+      "longitude": -77.47,
+      "note": "Installed Washington metropolitan Dulles TMY3 station in Virginia; not downtown DC. Explicit V0 weather binding.",
+      "region": "VA",
+      "station_id": "724030",
+      "station_name": "Washington Dc Dulles IntL Ar"
+    },
+    "boston": {
+      "station_id": "725090",
+      "station_name": "Boston-Logan Intl AP",
+      "region": "MA",
+      "country": "USA",
+      "latitude": 42.367,
+      "longitude": -71.017,
+      "source_url": "https://climate.onebuilding.org/WMO_Region_4_North_and_Central_America/USA_United_States_of_America/MA_Massachusetts/USA_MA_Boston-Logan.Intl.AP.725090_TMY3.zip",
+      "epw_sha256": "0df50c8fa8de523a73b6181b53f21ebca606e114f53ee171ff38a426b2447f97",
+      "archive_sha256": "1f31b55a91b63112610fc806691114b4be6c4fc7c1a2fdb401fa769e9ec1519d",
+      "file_name": "USA_MA_Boston-Logan.Intl.AP.725090_TMY3.epw",
+      "retrieved_at": "2026-10-16",
+      "note": "TMY3 airport weather for the named metropolitan area; no substitution"
+    },
+    "phoenix": {
+      "station_id": "722780",
+      "station_name": "Phoenix-Sky Harbor Intl AP",
+      "region": "AZ",
+      "country": "USA",
+      "latitude": 33.45,
+      "longitude": -111.983,
+      "source_url": "https://climate.onebuilding.org/WMO_Region_4_North_and_Central_America/USA_United_States_of_America/AZ_Arizona/USA_AZ_Phoenix-Sky.Harbor.Intl.AP.722780_TMY3.zip",
+      "epw_sha256": "640d66f72c4f8f3eebb00ac4a2cd093e06522422a3154e6dcfba98425093e42c",
+      "archive_sha256": "2f5579f9326be1886a37a4e8b02f5c409923ca7f8e1f308f023e309dd08dffde",
+      "file_name": "USA_AZ_Phoenix-Sky.Harbor.Intl.AP.722780_TMY3.epw",
+      "retrieved_at": "2026-10-16",
+      "note": "TMY3 airport weather for the named metropolitan area; no substitution"
+    },
+    "grand_forks": {
+      "station_id": "727570",
+      "station_name": "Grand Forks Intl AP",
+      "region": "ND",
+      "country": "USA",
+      "latitude": 47.95,
+      "longitude": -97.183,
+      "source_url": "https://climate.onebuilding.org/WMO_Region_4_North_and_Central_America/USA_United_States_of_America/ND_North_Dakota/USA_ND_Grand.Forks.Intl.AP.727570_TMY3.zip",
+      "epw_sha256": "67dabe32018659a52a9ab21b5b78e75a69ef36cefad646cd52ea83d21a878990",
+      "archive_sha256": "6d71358f786caa0bd0ca6770d610bf2ad4a4a416f868a580dff0d05ebd750b96",
+      "file_name": "USA_ND_Grand.Forks.Intl.AP.727570_TMY3.epw",
+      "retrieved_at": "2026-10-16",
+      "note": "TMY3 airport weather for the named metropolitan area; no substitution"
+    },
+    "minneapolis": {
+      "station_id": "726580",
+      "station_name": "Minneapolis-St Paul Intl AP",
+      "region": "MN",
+      "country": "USA",
+      "latitude": 44.883,
+      "longitude": -93.233,
+      "source_url": "https://climate.onebuilding.org/WMO_Region_4_North_and_Central_America/USA_United_States_of_America/MN_Minnesota/USA_MN_Minneapolis-St.Paul.Intl.AP.726580_TMY3.zip",
+      "epw_sha256": "c92efe507ecc06263b92e3f01b59e503a37b0fcde70b035caae657517264c4e4",
+      "archive_sha256": "91d3fe8cd135756bff74ecab53583ac5c9dddf696b13e5ac69e3307d7f75e34d",
+      "file_name": "USA_MN_Minneapolis-St.Paul.Intl.AP.726580_TMY3.epw",
+      "retrieved_at": "2026-10-16",
+      "note": "TMY3 airport weather for the named metropolitan area; no substitution"
+    },
+    "memphis": {
+      "station_id": "723340",
+      "station_name": "Memphis Intl AP",
+      "region": "TN",
+      "country": "USA",
+      "latitude": 35.067,
+      "longitude": -89.983,
+      "source_url": "https://climate.onebuilding.org/WMO_Region_4_North_and_Central_America/USA_United_States_of_America/TN_Tennessee/USA_TN_Memphis.Intl.AP.723340_TMY3.zip",
+      "epw_sha256": "d461d9ad1505e5e9d5d8446585e7a8def898680f9002252d89817f83d191d9b8",
+      "archive_sha256": "eb442e9d94b1e299a16d563272635dbd8e09708cebae7217d4b67f072ff19987",
+      "file_name": "USA_TN_Memphis.Intl.AP.723340_TMY3.epw",
+      "retrieved_at": "2026-10-16",
+      "note": "TMY3 airport weather for the named metropolitan area; no substitution"
+    }
+  }
+}

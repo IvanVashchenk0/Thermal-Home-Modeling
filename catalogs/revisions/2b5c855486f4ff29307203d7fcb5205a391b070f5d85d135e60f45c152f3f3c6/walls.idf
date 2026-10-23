@@ -1,0 +1,414 @@
+Material:NoMass,
+  Vinyl Siding,  !- Name
+  Smooth,  !- Roughness
+  0.1092,  !- Thermal Resistance {m2-K/W}
+  0.9,  !- Thermal Absorptance
+  0.60,  !- Solar Absorptance
+  0.60;  !- Visible Absorptance
+
+Material,
+  OSB 7/16,  !- Name
+  MediumSmooth,  !- Roughness
+  0.0111,  !- Thickness {m}
+  0.12359,  !- Conductivity {W/m-K}
+  650.0,  !- Density {kg/m3}
+  1880;  !- Specific Heat {J/kg-K}
+
+Material,
+  Gypsum 1/2,  !- Name
+  MediumSmooth,  !- Roughness
+  0.0127,  !- Thickness {m}
+  0.16026,  !- Conductivity {W/m-K}
+  800.0,  !- Density {kg/m3}
+  1090;  !- Specific Heat {J/kg-K}
+
+Material,
+  ICF EPS,  !- Name
+  VeryRough,  !- Roughness
+  0.0635,  !- Thickness {m}
+  0.03346,  !- Conductivity {W/m-K}
+  24.0,  !- Density {kg/m3}
+  1210;  !- Specific Heat {J/kg-K}
+
+Material,
+  ICF Concrete,  !- Name
+  MediumRough,  !- Roughness
+  0.1524,  !- Thickness {m}
+  1.95000,  !- Conductivity {W/m-K}
+  2240.0,  !- Density {kg/m3}
+  900;  !- Specific Heat {J/kg-K}
+
+! ---- W1: 2x4; R-13 fiberglass batt; no exterior foam ----
+
+
+
+
+
+
+
+
+Material,
+  W1 Cavity Equivalent,  !- Name
+  MediumRough,  !- Roughness
+  0.0889,  !- Thickness {m}
+  0.05498,  !- Conductivity {W/m-K}
+  120.8,  !- Density {kg/m3}
+  1571;  !- Specific Heat {J/kg-K}
+
+Construction,
+  Wall W1,  !- Name
+  Vinyl Siding,  !- Outside Layer
+  OSB 7/16,  !- Layer 2
+  W1 Cavity Equivalent,  !- Layer 3
+  Gypsum 1/2;  !- Layer 4
+
+
+! ---- W2: 2x4; R-13 fiberglass batt; 1in XPS ----
+Material,
+  W2 Exterior Foam,  !- Name
+  MediumSmooth,  !- Roughness
+  0.0254,  !- Thickness {m}
+  0.02885,  !- Conductivity {W/m-K}
+  29.0,  !- Density {kg/m3}
+  1210;  !- Specific Heat {J/kg-K}
+
+Material,
+  W2 Cavity Equivalent,  !- Name
+  MediumRough,  !- Roughness
+  0.0889,  !- Thickness {m}
+  0.05168,  !- Conductivity {W/m-K}
+  120.8,  !- Density {kg/m3}
+  1571;  !- Specific Heat {J/kg-K}
+
+Construction,
+  Wall W2,  !- Name
+  Vinyl Siding,  !- Outside Layer
+  OSB 7/16,  !- Layer 2
+  W2 Exterior Foam,  !- Layer 3
+  W2 Cavity Equivalent,  !- Layer 4
+  Gypsum 1/2;  !- Layer 5
+
+! ---- W3: 2x4; R-13 fiberglass batt; 2in XPS ----
+Material,
+  W3 Exterior Foam,  !- Name
+  MediumSmooth,  !- Roughness
+  0.0508,  !- Thickness {m}
+  0.02885,  !- Conductivity {W/m-K}
+  29.0,  !- Density {kg/m3}
+  1210;  !- Specific Heat {J/kg-K}
+
+Material,
+  W3 Cavity Equivalent,  !- Name
+  MediumRough,  !- Roughness
+  0.0889,  !- Thickness {m}
+  0.05026,  !- Conductivity {W/m-K}
+  120.8,  !- Density {kg/m3}
+  1571;  !- Specific Heat {J/kg-K}
+
+Construction,
+  Wall W3,  !- Name
+  Vinyl Siding,  !- Outside Layer
+  OSB 7/16,  !- Layer 2
+  W3 Exterior Foam,  !- Layer 3
+  W3 Cavity Equivalent,  !- Layer 4
+  Gypsum 1/2;  !- Layer 5
+
+! ---- W4: 2x6; R-19 fiberglass batt; no exterior foam ----
+
+
+
+
+
+
+
+
+Material,
+  W4 Cavity Equivalent,  !- Name
+  MediumRough,  !- Roughness
+  0.1397,  !- Thickness {m}
+  0.06038,  !- Conductivity {W/m-K}
+  120.8,  !- Density {kg/m3}
+  1571;  !- Specific Heat {J/kg-K}
+
+Construction,
+  Wall W4,  !- Name
+  Vinyl Siding,  !- Outside Layer
+  OSB 7/16,  !- Layer 2
+  W4 Cavity Equivalent,  !- Layer 3
+  Gypsum 1/2;  !- Layer 4
+
+
+! ---- W5: 2x6; R-19 fiberglass batt; 1in XPS ----
+Material,
+  W5 Exterior Foam,  !- Name
+  MediumSmooth,  !- Roughness
+  0.0254,  !- Thickness {m}
+  0.02885,  !- Conductivity {W/m-K}
+  29.0,  !- Density {kg/m3}
+  1210;  !- Specific Heat {J/kg-K}
+
+Material,
+  W5 Cavity Equivalent,  !- Name
+  MediumRough,  !- Roughness
+  0.1397,  !- Thickness {m}
+  0.05775,  !- Conductivity {W/m-K}
+  120.8,  !- Density {kg/m3}
+  1571;  !- Specific Heat {J/kg-K}
+
+Construction,
+  Wall W5,  !- Name
+  Vinyl Siding,  !- Outside Layer
+  OSB 7/16,  !- Layer 2
+  W5 Exterior Foam,  !- Layer 3
+  W5 Cavity Equivalent,  !- Layer 4
+  Gypsum 1/2;  !- Layer 5
+
+! ---- W6: 2x6; R-19 fiberglass batt; 2in XPS ----
+Material,
+  W6 Exterior Foam,  !- Name
+  MediumSmooth,  !- Roughness
+  0.0508,  !- Thickness {m}
+  0.02885,  !- Conductivity {W/m-K}
+  29.0,  !- Density {kg/m3}
+  1210;  !- Specific Heat {J/kg-K}
+
+Material,
+  W6 Cavity Equivalent,  !- Name
+  MediumRough,  !- Roughness
+  0.1397,  !- Thickness {m}
+  0.05641,  !- Conductivity {W/m-K}
+  120.8,  !- Density {kg/m3}
+  1571;  !- Specific Heat {J/kg-K}
+
+Construction,
+  Wall W6,  !- Name
+  Vinyl Siding,  !- Outside Layer
+  OSB 7/16,  !- Layer 2
+  W6 Exterior Foam,  !- Layer 3
+  W6 Cavity Equivalent,  !- Layer 4
+  Gypsum 1/2;  !- Layer 5
+
+! ---- W7: 2x6; closed-cell spray foam; no exterior foam ----
+
+
+
+
+
+
+
+
+Material,
+  W7 Cavity Equivalent,  !- Name
+  MediumRough,  !- Roughness
+  0.1397,  !- Thickness {m}
+  0.04316,  !- Conductivity {W/m-K}
+  135.8,  !- Density {kg/m3}
+  1623;  !- Specific Heat {J/kg-K}
+
+Construction,
+  Wall W7,  !- Name
+  Vinyl Siding,  !- Outside Layer
+  OSB 7/16,  !- Layer 2
+  W7 Cavity Equivalent,  !- Layer 3
+  Gypsum 1/2;  !- Layer 4
+
+
+! ---- W8: 2x6; closed-cell spray foam; 1in XPS ----
+Material,
+  W8 Exterior Foam,  !- Name
+  MediumSmooth,  !- Roughness
+  0.0254,  !- Thickness {m}
+  0.02885,  !- Conductivity {W/m-K}
+  29.0,  !- Density {kg/m3}
+  1210;  !- Specific Heat {J/kg-K}
+
+Material,
+  W8 Cavity Equivalent,  !- Name
+  MediumRough,  !- Roughness
+  0.1397,  !- Thickness {m}
+  0.03870,  !- Conductivity {W/m-K}
+  135.8,  !- Density {kg/m3}
+  1623;  !- Specific Heat {J/kg-K}
+
+Construction,
+  Wall W8,  !- Name
+  Vinyl Siding,  !- Outside Layer
+  OSB 7/16,  !- Layer 2
+  W8 Exterior Foam,  !- Layer 3
+  W8 Cavity Equivalent,  !- Layer 4
+  Gypsum 1/2;  !- Layer 5
+
+! ---- W9: 2x6; closed-cell spray foam; 2in XPS ----
+Material,
+  W9 Exterior Foam,  !- Name
+  MediumSmooth,  !- Roughness
+  0.0508,  !- Thickness {m}
+  0.02885,  !- Conductivity {W/m-K}
+  29.0,  !- Density {kg/m3}
+  1210;  !- Specific Heat {J/kg-K}
+
+Material,
+  W9 Cavity Equivalent,  !- Name
+  MediumRough,  !- Roughness
+  0.1397,  !- Thickness {m}
+  0.03640,  !- Conductivity {W/m-K}
+  135.8,  !- Density {kg/m3}
+  1623;  !- Specific Heat {J/kg-K}
+
+Construction,
+  Wall W9,  !- Name
+  Vinyl Siding,  !- Outside Layer
+  OSB 7/16,  !- Layer 2
+  W9 Exterior Foam,  !- Layer 3
+  W9 Cavity Equivalent,  !- Layer 4
+  Gypsum 1/2;  !- Layer 5
+
+! ---- W10: 2x6; R-19 fiberglass batt; 1.5in Mineral wool board ----
+Material,
+  W10 Exterior Foam,  !- Name
+  MediumSmooth,  !- Roughness
+  0.0381,  !- Thickness {m}
+  0.03434,  !- Conductivity {W/m-K}
+  128.0,  !- Density {kg/m3}
+  840;  !- Specific Heat {J/kg-K}
+
+Material,
+  W10 Cavity Equivalent,  !- Name
+  MediumRough,  !- Roughness
+  0.1397,  !- Thickness {m}
+  0.05732,  !- Conductivity {W/m-K}
+  120.8,  !- Density {kg/m3}
+  1571;  !- Specific Heat {J/kg-K}
+
+Construction,
+  Wall W10,  !- Name
+  Vinyl Siding,  !- Outside Layer
+  OSB 7/16,  !- Layer 2
+  W10 Exterior Foam,  !- Layer 3
+  W10 Cavity Equivalent,  !- Layer 4
+  Gypsum 1/2;  !- Layer 5
+
+! ---- W11: 2x6; dense-pack cellulose; no exterior foam ----
+
+
+
+
+
+
+
+
+Material,
+  W11 Cavity Equivalent,  !- Name
+  MediumRough,  !- Roughness
+  0.1397,  !- Thickness {m}
+  0.05620,  !- Conductivity {W/m-K}
+  153.8,  !- Density {kg/m3}
+  1562;  !- Specific Heat {J/kg-K}
+
+Construction,
+  Wall W11,  !- Name
+  Vinyl Siding,  !- Outside Layer
+  OSB 7/16,  !- Layer 2
+  W11 Cavity Equivalent,  !- Layer 3
+  Gypsum 1/2;  !- Layer 4
+
+
+! ---- W12: SIP wall; no exterior foam ----
+
+
+
+
+
+
+
+
+Material,
+  W12 SIP Core,  !- Name
+  MediumRough,  !- Roughness
+  0.1429,  !- Thickness {m}
+  0.03528,  !- Conductivity {W/m-K}
+  16.0,  !- Density {kg/m3}
+  1210;  !- Specific Heat {J/kg-K}
+
+Construction,
+  Wall W12,  !- Name
+  Vinyl Siding,  !- Outside Layer
+  OSB 7/16,  !- Layer 2
+  W12 SIP Core,  !- Layer 3
+  Gypsum 1/2;  !- Layer 4
+
+
+! ---- W13: ICF wall; no exterior foam ----
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Construction,
+  Wall W13,  !- Name
+  Vinyl Siding,  !- Outside Layer
+  ICF EPS,  !- Layer 2
+  ICF Concrete,  !- Layer 3
+  ICF EPS,  !- Layer 4
+  Gypsum 1/2;  !- Layer 5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

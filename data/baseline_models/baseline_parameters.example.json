@@ -1,0 +1,11 @@
+{
+  "floor_area_ft2": 1500.0,
+  "stories": 1,
+  "window_to_wall_ratio": 0.15,
+  "orientation_mode": "long_side_south",
+  "window_type": "double",
+  "low_e": "272",
+  "wall_insulation": "baseline",
+  "attic_r_value": 49.0,
+  "foundation_insulation": "baseline"
+}

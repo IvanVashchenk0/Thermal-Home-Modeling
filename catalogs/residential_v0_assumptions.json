@@ -1,0 +1,87 @@
+{
+  "data_status": "Provisional",
+  "foundation": {
+    "ground_temperature_c": 18,
+    "representation": "Ground-contact concrete slab, not the catalog DC basement; no Kiva/soil dynamics or slab-edge code claim",
+    "slab_conductivity_w_mk": 1.4,
+    "slab_density_kg_m3": 2200,
+    "slab_specific_heat_j_kgk": 900,
+    "slab_thickness_m": 0.1
+  },
+  "geometry": {
+    "flat_roof": true,
+    "height_m": 2.4384,
+    "length_m": 15.24,
+    "width_m": 9.144,
+    "zone_count": 1,
+    "additional_one_story_sizes": "1M and 1L: length=sqrt(workbook area * 5/3), width=sqrt(workbook area / (5/3)); same 8 ft height. Provisional geometry, not finalized workbook footprints."
+  },
+  "hvac": {
+    "cooling_limit": "NoLimit",
+    "heating_limit": "NoLimit",
+    "max_heating_supply_c": 50,
+    "min_cooling_supply_c": 13,
+    "no_fuel_conversion": true,
+    "type": "ZoneHVAC:IdealLoadsAirSystem"
+  },
+  "limitations": [
+    "Not a validated Marvin residential baseline.",
+    "No explicit basement, ventilated attic, room partitions, ductwork, product glazing, humidity control, or mechanical ventilation.",
+    "Constant provisional ground temperature is not a calibrated foundation model.",
+    "Sizing disabled: unlimited ideal loads; no equipment sizing conclusions."
+  ],
+  "operation": {
+    "activity_w_per_person": 120,
+    "cooling_setpoint_c": 26,
+    "dehumidification": "None",
+    "equipment_w_m2": 4,
+    "heating_setpoint_c": 20,
+    "humidification": "None",
+    "infiltration_ach": 0.35,
+    "lights_w_m2": 3,
+    "mechanical_outdoor_air_m3_s": 0,
+    "occupancy_day_fraction": 0.5,
+    "occupancy_night_fraction": 1.0,
+    "people": 3,
+    "gain_fractions": {
+      "people_radiant": 0.3,
+      "lights_radiant": 0.4,
+      "lights_visible": 0.2,
+      "lights_return_air": 0,
+      "equipment_radiant": 0.3,
+      "equipment_latent": 0,
+      "equipment_lost": 0
+    },
+    "occupancy_periods": "00:00\u201307:00 and 18:00\u201324:00 night fraction; 07:00\u201318:00 day fraction; same every day; lights/equipment follow occupancy"
+  },
+  "revision": "v0-1",
+  "roof": {
+    "deck_conductivity_w_mk": 0.13,
+    "deck_density_kg_m3": 600,
+    "deck_specific_heat_j_kgk": 1600,
+    "deck_thickness_m": 0.018,
+    "insulation": "Material:NoMass; selected nominal insulation R only; gypsum and deck separate; no surface films",
+    "r_ip_to_si": 0.1761101838,
+    "representation": "Flat compact roof/ceiling; no separately ventilated attic zone or roof framing bridges"
+  },
+  "simulation": {
+    "annual_year": 2001,
+    "heat_balance": "ConductionTransferFunction",
+    "no_design_days": true,
+    "solar_distribution": "FullExterior",
+    "start_day": "Monday",
+    "surface_convection_inside": "TARP",
+    "surface_convection_outside": "DOE-2",
+    "terrain": "Suburbs",
+    "timestep_per_hour": 6
+  },
+  "source": "Software V0 assumptions, not workbook decisions",
+  "windows": {
+    "geometry": "One centered equivalent window per facade; identical opposing pairs, no frames, dividers, overhangs or product designation",
+    "shgc": 0.4,
+    "u_factor_w_m2k": 2.0,
+    "visible_transmittance": 0.6,
+    "wwr": 0.19
+  },
+  "engine_defaults": "Unspecified opaque material absorptance uses EnergyPlus defaults: thermal 0.9, solar/visible 0.7. Vinyl explicitly uses solar/visible 0.6. No external shading, frames or dividers; no scheduled thermostat setback."
+}
