@@ -3,7 +3,9 @@
 import argparse
 import json
 import logging
+import os
 from pathlib import Path
+import signal
 
 from thermal_home_modeling.config.experiment_config import phoenix_example, small_parameter_space
 from thermal_home_modeling.config.settings import Settings
@@ -16,10 +18,22 @@ from thermal_home_modeling.utilities.logging_config import configure_logging
 logger = logging.getLogger(__name__)
 
 
+def _worker_request(value: str) -> int | None:
+    if value.casefold() == "auto":
+        return None
+    try:
+        workers = int(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError("--workers requires a positive integer or auto") from exc
+    if workers < 1:
+        raise argparse.ArgumentTypeError("--workers requires a positive integer or auto")
+    return workers
+
+
 def main(argv: list[str] | None = None) -> int:
     """Run the selected minimal workflow; nonzero exit means something failed."""
     parser = argparse.ArgumentParser(description="Thermal Home Modeling: single-run reliability before scale")
-    parser.add_argument("mode", nargs="?", choices=("single", "small", "smoke", "export", "mvp-real", "mvp-batch", "catalog-import", "weather-fetch", "residential", "residential-batch"), default="single")
+    parser.add_argument("mode", nargs="?", choices=("single", "small", "smoke", "export", "mvp-real", "mvp-batch", "catalog-import", "weather-fetch", "residential", "residential-batch", "residential-verify", "residential-recover"), default="single")
     parser.add_argument("--config", type=Path, help="Residential experiment JSON")
     parser.add_argument("--count", type=int, help="Number of unique configurations to sample")
     parser.add_argument("--sampling", choices=("full_factorial", "random", "balanced"))
@@ -37,6 +51,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--house", default=None, help="Comma-separated residential house IDs")
     parser.add_argument("--city", default=None, help="Residential city ID")
     parser.add_argument("--resume-batch", type=Path)
+    parser.add_argument("--batch", type=Path, help="Saved residential batch for verification or export recovery")
     parser.add_argument("--orientation", type=float, default=0, help="North axis in degrees for mvp-real (default: 0)")
     parser.add_argument("--weather", type=Path, help="EPW path for mvp-real (default: bundled Chicago when available)")
     parser.add_argument("--scope", choices=("annual",), default="annual", help="Implemented MVP simulation scope")
@@ -45,14 +60,26 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--cities", default=None, help="Comma-separated installed city names, unique prefixes, or station IDs for mvp-batch")
     parser.add_argument("--orientations", default=None, help="Comma-separated batch north axes (commercial default 0,90,180,270; residential 0,90)")
     parser.add_argument("--mode", dest="execution_mode", choices=("sequential", "parallel"), default=None, help="Batch execution mode")
-    parser.add_argument("--workers", type=int, choices=(1, 2, 4, 8), default=4, help="Parallel worker request, capped by available CPUs")
+    parser.add_argument("--workers", type=_worker_request, default=4, help="Positive worker limit or auto; capped by allocated CPUs")
     parser.add_argument("--allow-large-batch", action="store_true", help="Explicitly allow more than 20 configurations")
     parser.add_argument("--compare-batch", type=Path, help="Previous batch_summary.json for an equivalent uncached sequential/parallel timing comparison")
     args = parser.parse_args(argv)
     args.rerun = args.rerun or args.fresh
     configure_logging()
+    if os.environ.get("SLURM_JOB_ID") and args.mode in ("residential", "residential-batch"):
+        def interrupt_job(signum, _frame):
+            raise KeyboardInterrupt(f"Slurm signal {signum}")
+        signal.signal(signal.SIGTERM, interrupt_job)
+        signal.signal(signal.SIGUSR1, interrupt_job)
     try:
         settings = Settings.from_env(args.root)
+        if args.mode in ("residential-verify", "residential-recover"):
+            from thermal_home_modeling.storage.residential_integrity import verify_batch, recover_exports
+            if args.batch is None:
+                raise ValueError(f"{args.mode} requires --batch")
+            report = recover_exports(args.batch) if args.mode == "residential-recover" else verify_batch(args.batch)
+            print(json.dumps(report, indent=2))
+            return 0 if report["complete"] else 1
         if args.mode == "weather-fetch":
             from thermal_home_modeling.weather.research import fetch_research_weather
             logger.info("Research weather files: %s", fetch_research_weather())

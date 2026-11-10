@@ -3,6 +3,7 @@ from dataclasses import asdict, replace
 from datetime import datetime, timezone
 from itertools import product
 import json
+import logging
 from pathlib import Path
 import time
 import statistics
@@ -20,12 +21,15 @@ from thermal_home_modeling.energyplus.result_parser import SQLiteResultParser
 from thermal_home_modeling.energyplus.runner import EnergyPlusRunner
 from thermal_home_modeling.errors import ConfigurationError, ThermalModelingError
 from thermal_home_modeling.experiments.coordinator import coordinate_cases
+from thermal_home_modeling.experiments.cpu_resources import cpu_limits
 from thermal_home_modeling.experiments.mvp_batch import BatchOutcome, BatchProgress, worker_limit
 from thermal_home_modeling.experiments.mvp_real import read_warnings
 from thermal_home_modeling.models.residential import ResidentialInput
 from thermal_home_modeling.storage.result_store import export_dataframe
 from thermal_home_modeling.utilities.files import file_digest, fingerprint, write_json
 from thermal_home_modeling.weather.discovery import discover_weather
+
+logger = logging.getLogger(__name__)
 
 
 def resolve_residential_weather(installation, mappings, city_id="washington_dc"):
@@ -204,9 +208,12 @@ def run_residential_batch(cases, *, mode="parallel", workers=4, reuse=True, allo
     start = time.perf_counter()
     plans = prepare_residential_cases(cases, catalog, mappings, assumptions, installation, paths, reuse=reuse)
     cases = [p["case"] for p in plans]
-    limit = worker_limit(mode, workers, len(cases))
+    pending_cases = sum(p["cached_result"] is None for p in plans)
+    limit = worker_limit(mode, workers, max(1, pending_cases))
+    limits = cpu_limits()
+    logger.info("Residential workers: requested=%s limits=%s effective=%s", workers if workers is not None else "auto", limits, limit)
     batch_id = Path(batch_directory).name if batch_directory else "residential_" + uuid4().hex
-    directory = Path(batch_directory) if batch_directory else paths.output / "batches" / batch_id
+    directory = Path(batch_directory).resolve() if batch_directory else paths.output / "batches" / batch_id
     directory.mkdir(parents=True, exist_ok=False)
     write_json(directory / "catalog_snapshot.json", catalog)
     write_json(directory / "mapping_snapshot.json", mappings)
@@ -214,6 +221,8 @@ def run_residential_batch(cases, *, mode="parallel", workers=4, reuse=True, allo
     states = [{"city": catalog["locations"][p["case"].city_id]["value"]["city"], "orientation_deg": p["case"].orientation_deg,
                "wall": p["case"].wall_id, "attic": p["case"].attic_r_ip, "status": "Queued", "runtime_seconds": None} for p in plans]
     manifest = {"batch_id": batch_id, "workflow": "residential_v0", "status": "running", "mode": mode, "max_workers": limit,
+                "requested_workers": workers if workers is not None else "auto", "cpu_limits": limits,
+                "pending_cases_at_start": pending_cases,
                 "parent_batch": parent_batch, "cases": [p["case"].to_dict() for p in plans], "case_states": states,
                 "input_signatures": [p["signature"] for p in plans], "catalog_revision": catalog["workbook_sha256"],
                 "started_at": datetime.now(timezone.utc).isoformat(), "results": []}
@@ -262,7 +271,10 @@ def run_residential_batch(cases, *, mode="parallel", workers=4, reuse=True, allo
         raise
     checkpoint(force=True)
     frame = pd.read_parquet(directory / "batch_results.parquet")
-    summary = {"batch_id": batch_id, "mode": mode, "max_workers": limit, "total_cases": len(cases),
+    summary = {"batch_id": batch_id, "mode": mode, "max_workers": limit,
+               "requested_workers": workers if workers is not None else "auto", "cpu_limits": limits,
+               "pending_cases_at_start": pending_cases,
+               "total_cases": len(cases),
                "succeeded": int(frame.success.sum()), "failed": int((~frame.success).sum()), "cached_cases": int(frame.cached.sum()),
                "newly_executed_cases": int(frame.runtime_seconds.notna().sum()), "wall_clock_seconds": time.perf_counter()-start,
                "catalog_revision": catalog["workbook_sha256"], "research_validated": False}

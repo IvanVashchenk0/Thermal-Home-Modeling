@@ -3,7 +3,6 @@
 from dataclasses import dataclass
 from datetime import datetime, timezone
 import json
-import os
 from pathlib import Path
 import statistics
 import time
@@ -18,6 +17,7 @@ from thermal_home_modeling.energyplus.installation import EnergyPlusInstallation
 from thermal_home_modeling.errors import ConfigurationError
 from thermal_home_modeling.experiments.mvp_real import prepare_baseline, run_real_mvp
 from thermal_home_modeling.experiments.coordinator import coordinate_cases
+from thermal_home_modeling.experiments.cpu_resources import cpu_limits
 from thermal_home_modeling.models.mvp import MVPResult, MVPSimulationInput
 from thermal_home_modeling.storage.result_store import export_dataframe
 from thermal_home_modeling.utilities.files import fingerprint, write_json
@@ -59,20 +59,16 @@ def select_cities(options: list[EPWLocation], names: str) -> list[Path]:
 
 
 def available_cpus() -> int:
-    """Honor CPU affinity where supported, otherwise use the local logical CPU count."""
-    if hasattr(os, "process_cpu_count"):
-        return os.process_cpu_count() or 1
-    if hasattr(os, "sched_getaffinity"):
-        return max(1, len(os.sched_getaffinity(0)))
-    return os.cpu_count() or 1
+    """Use the most restrictive known allocation, affinity, or quota."""
+    return cpu_limits()["available_cpus"]
 
 
-def worker_limit(mode: str, workers: int, case_count: int) -> int:
+def worker_limit(mode: str, workers: int | None, case_count: int) -> int:
     if mode not in ("sequential", "parallel"):
         raise ConfigurationError("Execution mode must be sequential or parallel")
-    if workers not in (1, 2, 4, 8):
-        raise ConfigurationError("Requested workers must be 1, 2, 4, or 8")
-    return 1 if mode == "sequential" else min(workers, available_cpus(), case_count)
+    if workers is not None and (isinstance(workers, bool) or not isinstance(workers, int) or workers < 1):
+        raise ConfigurationError("Requested workers must be a positive integer or auto")
+    return 1 if mode == "sequential" else min(workers or available_cpus(), available_cpus(), case_count)
 
 
 @dataclass(frozen=True)

@@ -1,6 +1,7 @@
 """Small, explicit configuration for the bundled demonstration building."""
 
 from dataclasses import dataclass
+import os
 from pathlib import Path
 
 MODEL_NAME = "5ZoneAirCooled"
@@ -28,8 +29,13 @@ class MVPPaths:
     input: Path
     output: Path
 
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "input", Path(self.input).expanduser().resolve())
+        object.__setattr__(self, "output", Path(self.output).expanduser().resolve())
+
     @classmethod
     def default(cls) -> "MVPPaths":
-        """Use the current user's home directory without embedding a username."""
+        """Use explicit roots when set, retaining the historical local default."""
         root = Path.home() / "Desktop" / "Academics" / "Fall 26" / "ME 487"
-        return cls(root / "input", root / "output")
+        return cls(os.environ.get("THM_INPUT_ROOT") or root / "input",
+                   os.environ.get("THM_OUTPUT_ROOT") or root / "output")

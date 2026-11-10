@@ -72,8 +72,10 @@ reuse, and `--save-config` to preserve the resolved experiment specification.
 Fixed-count selection supports seeded `random` and `balanced` sampling. Do not
 start a full factorial campaign casually: it contains 1,728 unique cases.
 
-The CLI prints job and batch directories under the sibling `../output/` root.
-Generated epJSON inputs are under `../input/generated/`. Each run keeps its own
+By default, the CLI prints job and batch directories under the sibling `../output/` root.
+Set `THM_INPUT_ROOT` and `THM_OUTPUT_ROOT` to absolute paths to place residential
+artifacts elsewhere. Generated epJSON inputs are under the selected input root's
+`generated/` directory. Each run keeps its own
 `result.json`, EnergyPlus SQLite database, diagnostics, and logs. Each batch keeps
 snapshots, a manifest, `batch_results.csv`, `batch_results.parquet`, and a timing
 summary. These local outputs are ignored by Git.
@@ -85,6 +87,23 @@ summary. These local outputs are ignored by Git.
 ```
 
 Resume creates a new attempt and revalidates completed cases before reuse.
+Keep the same configured roots when resuming; omit `--fresh` to reuse validated
+completed cases. `--workers auto` uses the smallest known Slurm task allocation,
+CPU affinity, and cgroup quota. Any positive manual count is accepted but is
+still capped by those limits. Batch manifests and summaries save the request,
+detected limits, and effective worker count.
+
+After a campaign has stopped, verify or recover its derived exports using:
+
+```sh
+.venv/bin/python main.py residential-verify --batch /path/to/output/batches/residential_ID
+.venv/bin/python main.py residential-recover --batch /path/to/output/batches/residential_ID
+```
+
+Verification requires one successful, unique result per saved case, matching
+indexed JSON, CSV, and Parquet data, plus traceable model and raw files. Recovery
+rebuilds both exports from indexed records; it cannot manufacture missing or
+failed simulations. Run recovery only after the original writer has stopped.
 `--compare-batch` compares timing only for equivalent, successful, entirely fresh
 case sets. Run `.venv/bin/python main.py residential-batch --help` for all options.
 
@@ -110,7 +129,8 @@ The smoke command uses a synthetic subprocess and produces no engineering result
 Real EnergyPlus integration checks are optional. The commercial demonstration and
 earlier generic CLI workflows remain in the source for compatibility, but the
 Streamlit product surface is residential results only. There is no finance, carbon,
-optimization, regression, real equipment efficiency, or Talon/Slurm integration.
+optimization, regression, or real equipment efficiency. For Talon setup and staged
+Slurm commands, see [docs/talon.md](docs/talon.md). Talon execution remains unverified.
 
 See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the execution path and artifact
 map, and [docs/flexible_residential_campaigns.md](docs/flexible_residential_campaigns.md)
